@@ -1,0 +1,6 @@
+dbinom(3,4,0.75,log=FALSE)
+pbinom(3,4,0.75,lower.tail = TRUE,log.p =FALSE)
+1-pbinom(3,5,0.75,lower.tail = TRUE,log.p = FALSE)
+pnorm(1.2, mean=2, sd=2, lower.tail = TRUE, log.p = FALSE)
+1-pnorm(1.2,mean=2, sd=2, lower.tail = TRUE, log.p = FALSE)
+pnorm( 3.2, mean= 2, sd= 2) - pnorm(1.2, mean=2, sd=2)

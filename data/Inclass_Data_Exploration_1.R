@@ -1,0 +1,6 @@
+pairs(iris)
+pairs(iris[, c("Petal.Width", "Sepal.Width", "Sepal.Length")])
+dat_bird= read.csv(here("data","bird.sta.csv"))
+hist(dat_bird$CBCH,main="Histogram of Chestnut Beaked Chickadee Abundance", xlab="Number of birds counted",breaks=0:7-0.5)
+hist(dat_bird$HAWO,main="Histogram of Hairy Woodpecker Abundance", xlab="Number of birds counted",breaks=0:4-0.1)
+max(dat_bird$HAWO)

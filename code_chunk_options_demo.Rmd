@@ -1,0 +1,50 @@
+---
+title: "R Notebook"
+output: 
+  html_document:
+    theme: united
+editor_options: 
+  chunk_output_type: inline
+---
+
+
+```{r load_penguin_data, echo=TRUE, eval=TRUE}
+require(palmerpenguins)
+head(penguins)
+```
+
+
+```{r simple pairplot, echo = FALSE}
+plot(penguins[, 3:5])
+```
+
+[Code will not appear in rendered document]
+
+
+
+
+# Tabset Example {.tabset .tabset-pills}
+
+## Tab 1
+
+Tab 1 contents
+
+## Tab 2
+
+Don't be a such a pill!
+
+## Tab 3
+
+Tab 3 contents
+
+
+# Next Section
+
+Non-tabbed material
+
+
+
+
+
+
+

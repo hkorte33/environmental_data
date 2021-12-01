@@ -1,0 +1,26 @@
+---
+title: "R Markdown Documents- Part 1"
+subtitle: "Analysis of Environmental Data"
+author: "Hannah Korte"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+---
+# Intro
+
+**Hannah Korte**
+
+*Natural Resources Conservation*
+
+I am in my fifth year at UMass finsihing up my undergrad in NRC and also working on my masters in Geographical Information Science and Technolgy. I am a huge animal lover and I want to study and work with wildlife populations. 
+
+# Concepts List
+1. Basic R
+2. How to collect data on wildlife
+
+# Course list
+- Intro to GIS
+- Environmental Decision Making
+- WebGIS
+
