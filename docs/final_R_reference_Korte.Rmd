@@ -1,0 +1,183 @@
+---
+title: "final_R_reference.Rmd"
+author: "Hannah Korte"
+date: "12/10/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#Loading data and Packages
+```{r}
+library(here)
+library(palmerpenguins)
+require(here)
+require(palmerpenguins)
+ginkgo = read.csv(here("data","ginkgo_data_2021.csv"))
+```
+#Data Structures
+
+The function c() combines or concatenates its arguments into a vector (a 1-dimensional data structure consisting of 1 or more elements).
+
+All of the elements must be of the same type.
+I can’t combine character and numeric types in the same call to c()
+Here’s two examples using numeric and character data types:
+```{r}
+## Create a vector of numbers:
+num_vec  = c(1, 4, 8, 9, 13)
+
+## Create a vector of characters:
+char_vec = c("a", "fish", "data is cool")
+```
+I can show the contents of a vector by typing the name of the vector, or using the print() function.
+```{r}
+## Typing the name of the vector into the console prints the contents
+num_vec
+```
+```{r}
+## The print() function accomplishes the same task:
+print(char_vec)
+```
+
+The function length() retrieves or sets the length of vectors, factors, or any R object where a method has been defined. 
+
+Here’s an example:
+```{r}
+length(penguins)
+```
+
+The function matrix() creates a matrix from a given series of values. 
+
+If either nrow or ncol are not given, an attempt is made to interpret it from the length of data and the other parameter. 
+If neither is given, it returns a one-column matrix. 
+
+Here's an example:
+```{r}
+my_matrix = matrix(data = 1:9, nrow = 3, ncol = 3)
+## Sum of elements in the matrix
+sum(my_matrix)
+```
+
+The function data.frame() generates tightly coupled sets of varaibles that share many of the properties of matrices and lists. For most of R's modeling software it is used as the fundamental data structure. 
+
+Here's an example:
+```{r}
+n_pts = 15
+x_min = 2
+x_max = 18
+x = runif(n = n_pts, min = x_min, max = x_max)
+
+dat = data.frame(x = x, y_observed = rnorm(n_pts))
+
+plot(y_observed ~ x, data = dat, pch = 8)
+```
+
+#Use the ginkgo data.frame to create examples of:
+
+
+```{r}
+nrow(ginkgo)
+ncol(ginkgo)
+dim(ginkgo)
+```
+
+#Subsetting
+```{r}
+#Using the ginkgo data
+ginkgo$max_depth
+ginkgo[1,]
+ginkgo[2,3]
+ginkgo[,3]
+```
+
+```{r}
+require(palmerpenguins)
+penguins=penguins
+subset(penguins, species= "Adelie")
+```
+
+#Numerical Data Exploration
+```{r}
+summary(penguins)
+mean(penguins$bill_length_mm, na.rm=T)
+sd(penguins$bill_length_mm, na.rm=T)
+```
+
+#Graphical Data Exploration
+  #Scatterplot of ginkgo data
+```{r}
+plot(
+  x=ginkgo$max_depth, y=ginkgo$max_width,
+  col= "green", pch= 11,
+  cex= 2, main= "Ginkgo Trees Max Leaf Depth
+  Vs. Max Leaf Width", xlab = "Max Leaf Depth", ylab = "Max Leaf Width", xlim=c(19,145), ylim=c(16,130)
+)
+```
+
+  #Histogram of penghin flipper lengths
+```{r}
+hist(
+  penguins$flipper_length_mm,
+  main= "Histogram of Penguin 
+  Flipper Length", xlab= "Flipper Length (mm)", breaks= 20, col= "orange"
+)
+
+```
+
+  #Boxplot of Ginkgo data
+```{r}
+#Simple boxplot of ginkgo petiole lengths
+boxplot(ginkgo$petiole_length, col= "blue", main= "Simple Boxplot of 
+        Ginkgo Petiole Lengths", ylab= "Petiole Lengths")
+```
+
+```{r}
+#Conditional boxplot of one of the continuous variables conditioned on the seeds_present column.
+boxplot(ginkgo$petiole_length ~ ginkgo$seeds_present, col= "purple", main= "Conditional Boxplot of 
+        Ginkgo Petiole Lengths 
+        and Seeds Present", xlab= "Seeds Present", ylab= "Petiole Lengths")
+```
+
+#4-panel figure of histograms for penguin data
+```{r}
+#Creating the 4 vectors
+n_17=17
+n_30 = 30
+n_300= 300
+n_3000= 3000
+vec_sd = 2.4
+vec_mean = 10.4
+norm_17 = rnorm(n = n_17, mean = vec_mean, sd = vec_sd)
+norm_30 = rnorm(n = n_30, mean = vec_mean, sd = vec_sd)
+norm_300 = rnorm(n = n_300, mean = vec_mean, sd = vec_sd)
+norm_3000 = rnorm(n = n_3000, mean = vec_mean, sd = vec_sd)
+
+#Histograms of the vectors
+par(mfrow=c(2,2))
+hist(norm_17, main= "17 Element Vector",xlab="Random Generated Points")
+hist(norm_30, main= "30 Element Vector",xlab="Random Generated Points")
+hist(norm_300, main= "300 Element Vector",xlab="Random Generated Points")
+hist(norm_3000, main= "3000 Element Vector",xlab="Random Generated Points")
+```
+
+#Distribution Functions
+```{r}
+dnorm(x=2, mean=5, sd=1)
+
+pnorm(q=2,mean=5,sd=1)
+
+qnorm(p=0.85,mean=70,sd=3)
+
+dbinom(x=46:54, size=100, prob=0.5)
+
+pbinom(q=46:54, size=100, prob=0.5)
+
+qbinom(p=46:54, size=100, prob=0.5)
+
+```
+
+
+
+
+
