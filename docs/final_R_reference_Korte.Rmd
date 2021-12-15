@@ -8,21 +8,46 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-#Loading data and Packages
+
+# Loading data and Packages {.tabset .tabset-pills}
+
+## library() and require()
+  
+The Library() function loads packages that have already been installed within an environment or loads packages that come installed with R. 
+
 ```{r}
 library(here)
 library(palmerpenguins)
+```
+
+The require() function does that same thing as library().
+
+```{r}
 require(here)
 require(palmerpenguins)
+```
+
+## here() and read.csv()
+
+The here() function tells R to look for data that is in a specific "directory" or path within a projects environment.
+
+The read.csv() function allows R to read and convert a .csv file into a data frame. 
+
+```{r}
 ginkgo = read.csv(here("data","ginkgo_data_2021.csv"))
 ```
-#Data Structures
+
+# Data Structures {.tabset .tabset-pills}
+
+## c()
 
 The function c() combines or concatenates its arguments into a vector (a 1-dimensional data structure consisting of 1 or more elements).
 
-All of the elements must be of the same type.
-I can’t combine character and numeric types in the same call to c()
+- All of the elements must be of the same type.
+    - I can’t combine character and numeric types in the same call to c().
+    
 Here’s two examples using numeric and character data types:
+
 ```{r}
 ## Create a vector of numbers:
 num_vec  = c(1, 4, 8, 9, 13)
@@ -30,7 +55,9 @@ num_vec  = c(1, 4, 8, 9, 13)
 ## Create a vector of characters:
 char_vec = c("a", "fish", "data is cool")
 ```
+
 I can show the contents of a vector by typing the name of the vector, or using the print() function.
+
 ```{r}
 ## Typing the name of the vector into the console prints the contents
 num_vec
@@ -40,56 +67,87 @@ num_vec
 print(char_vec)
 ```
 
+## length()
+
 The function length() retrieves or sets the length of vectors, factors, or any R object where a method has been defined. 
 
 Here’s an example:
+
 ```{r}
 length(penguins)
 ```
 
+## matrix()
+
 The function matrix() creates a matrix from a given series of values. 
 
-If either nrow or ncol are not given, an attempt is made to interpret it from the length of data and the other parameter. 
-If neither is given, it returns a one-column matrix. 
+- If either nrow or ncol are not given, an attempt is made to interpret it from the length of data and the other parameter. 
+- If neither is given, it returns a one-column matrix. 
 
 Here's an example:
+
 ```{r}
 my_matrix = matrix(data = 1:9, nrow = 3, ncol = 3)
 ## Sum of elements in the matrix
 sum(my_matrix)
 ```
 
+## data.frame()
+
 The function data.frame() generates tightly coupled sets of varaibles that share many of the properties of matrices and lists. For most of R's modeling software it is used as the fundamental data structure. 
 
 Here's an example:
+
 ```{r}
-n_pts = 15
-x_min = 2
-x_max = 18
-x = runif(n = n_pts, min = x_min, max = x_max)
+mat_dat= data.frame(my_matrix, row.names = c("A", "B","C"))
 
-dat = data.frame(x = x, y_observed = rnorm(n_pts))
-
-plot(y_observed ~ x, data = dat, pch = 8)
+setNames(mat_dat, c("H1", "H2", "H3"))
 ```
 
-#Use the ginkgo data.frame to create examples of:
 
+- The function nrow() returns the number of rows in a dataframe.
 
 ```{r}
 nrow(ginkgo)
+```
+
+- The function ncol() returns the number of columns in a dataframe.
+  
+```{r}
 ncol(ginkgo)
+```
+
+- The function dim() returns that dimensions of a dataframe, which is both columns and rows.
+
+```{r}
 dim(ginkgo)
 ```
 
-#Subsetting
+# Subsetting {.tabset .tabset-pills}
+
+Subsetting allows you to select and/or exclude variables or parts of a data frame.
+
+## $
+  
+This subsets a data frame by name.
+
 ```{r}
-#Using the ginkgo data
 ginkgo$max_depth
+```
+
+## []
+
+This subsets by position.
+
+```{r}
 ginkgo[1,]
 ginkgo[2,3]
 ginkgo[,3]
 ```
+
+## subset()
+
+This function is used to subset matrices, vectors or data frames that meet certain conditions.
 
 ```{r}
 require(palmerpenguins)
@@ -97,87 +155,198 @@ penguins=penguins
 subset(penguins, species= "Adelie")
 ```
 
-#Numerical Data Exploration
+# Numerical Data Exploration {.tabset .tabset-pills}
+
+## summary()
+
+The function summary() is used to display summary statistics of data frames.
+
 ```{r}
 summary(penguins)
+```
+
+## mean()
+
+The function mean() returns the mean of a numerical dataset. 
+
+- For datasets with many observations, you must specify a numeric subset for this function to work.
+- This function will not work if the data set includes NA values. When using a data set that includes NAs, you have to add the “na.rm = TRUE” argument so R will remove all NA values.
+
+```{r}
 mean(penguins$bill_length_mm, na.rm=T)
+```
+
+## sd()
+
+The function sd() returns the standard deviation from the mean of a numeric data set. 
+
+- Just like with mean you must specify the subset you want to be able to use this function
+
+```{r}
 sd(penguins$bill_length_mm, na.rm=T)
 ```
 
-#Graphical Data Exploration
-  #Scatterplot of ginkgo data
+# Graphical Data Exploration {.tabset .tabset-pills}
+
+## Scatterplot
+
+- Plot() creates a scatterplot of data using  any combination of the arguments below:
+    - x and y: Specify the data being plotted
+    - col: Specifies the color of the plotted points. 
+    - pch: Its an integer that specifies the symbol type for the points.
+    - cex: Specifies the size of the points in the plot.
+    - main: Sets the title for the plot
+    - xlab: Sets the x-axis lable
+    - ylab: Sets the y-axis lable
+    - xlim: Sets the minimum & maximum x-axis values.
+    - ylim: Sets the minimum & maximum y-axis values.
+
 ```{r}
+#scatterplot of max leaf depth and max leaf width
 plot(
-  x=ginkgo$max_depth, y=ginkgo$max_width,
-  col= "green", pch= 11,
-  cex= 2, main= "Ginkgo Trees Max Leaf Depth
-  Vs. Max Leaf Width", xlab = "Max Leaf Depth", ylab = "Max Leaf Width", xlim=c(19,145), ylim=c(16,130)
+  x=ginkgo$max_depth, 
+  y=ginkgo$max_width,
+  col= "green", 
+  pch= 11,
+  cex= 2, 
+  main= "Ginkgo Trees Max Leaf Depth
+  Vs. Max Leaf Width", 
+  xlab = "Max Leaf Depth (mm)",
+  ylab = "Max Leaf Width (mm)", 
+  xlim=c(19,145), 
+  ylim=c(16,130)
 )
 ```
 
-  #Histogram of penghin flipper lengths
+## Histogram
+
+- The hist() function creates a histogram of a specified data set.
+
 ```{r}
+#Histogram of penghin flipper lengths
 hist(
   penguins$flipper_length_mm,
   main= "Histogram of Penguin 
-  Flipper Length", xlab= "Flipper Length (mm)", breaks= 20, col= "orange"
+  Flipper Length", 
+  xlab= "Flipper Length (mm)", 
+  breaks= 20, 
+  col= "orange"
 )
 
 ```
 
-  #Boxplot of Ginkgo data
+## Boxplot
+
+- The boxplot() function creates box-and-whisker plots of data sets.
+   
 ```{r}
 #Simple boxplot of ginkgo petiole lengths
-boxplot(ginkgo$petiole_length, col= "blue", main= "Simple Boxplot of 
-        Ginkgo Petiole Lengths", ylab= "Petiole Lengths")
+boxplot(ginkgo$petiole_length, 
+ col= "blue",
+ main= "Ginkgo Petiole Length", 
+ ylab= "Petiole Length (mm)")
 ```
 
 ```{r}
 #Conditional boxplot of one of the continuous variables conditioned on the seeds_present column.
-boxplot(ginkgo$petiole_length ~ ginkgo$seeds_present, col= "purple", main= "Conditional Boxplot of 
-        Ginkgo Petiole Lengths 
-        and Seeds Present", xlab= "Seeds Present", ylab= "Petiole Lengths")
+boxplot(ginkgo$petiole_length ~ ginkgo$seeds_present, 
+col= c("purple", "pink"), 
+main= "Ginkgo Petiole Length 
+by Presense of Seeds", 
+xlab= "Seeds Present", 
+ylab= "Petiole Length (mm)",
+names= c("Absent", "Present"))
 ```
 
-#4-panel figure of histograms for penguin data
+## 4-panel figure
+
+- Using par(mfrow=) allows us to specify the number of figures in each row and column. 
+
 ```{r}
-#Creating the 4 vectors
-n_17=17
-n_30 = 30
-n_300= 300
-n_3000= 3000
-vec_sd = 2.4
-vec_mean = 10.4
-norm_17 = rnorm(n = n_17, mean = vec_mean, sd = vec_sd)
-norm_30 = rnorm(n = n_30, mean = vec_mean, sd = vec_sd)
-norm_300 = rnorm(n = n_300, mean = vec_mean, sd = vec_sd)
-norm_3000 = rnorm(n = n_3000, mean = vec_mean, sd = vec_sd)
-
-#Histograms of the vectors
 par(mfrow=c(2,2))
-hist(norm_17, main= "17 Element Vector",xlab="Random Generated Points")
-hist(norm_30, main= "30 Element Vector",xlab="Random Generated Points")
-hist(norm_300, main= "300 Element Vector",xlab="Random Generated Points")
-hist(norm_3000, main= "3000 Element Vector",xlab="Random Generated Points")
+
+ hist(
+    ginkgo$max_width,
+    main = "Histogram of Ginkgo Leaf Width",
+    xlab = "Leaf Width (mm)",
+    col = "red"
+  )
+  
+  hist(
+    ginkgo$max_depth,
+    main = "Histogram of Ginkgo Leaf Depth",
+    xlab = "Leaf Depth (mm)",
+    col = "orange"
+  )
+  
+  hist(
+    ginkgo$notch_depth,
+    main = "Histogram of Ginkgo Notch Depth",
+    xlab = "Notch Depth (mm)",
+    col = "lightgreen"
+  )
+  
+  hist(
+    ginkgo$petiole_length,
+    main = "Histogram of Ginkgo Petiole Length",
+    xlab = "Petiole Length (mm)",
+    col = "pink"
+  )
 ```
 
-#Distribution Functions
+# Distribution Functions {.tabset .tabset-pills}
+
+Distribution functions are used with a set of observed data to answer questions about the probability of certain outcomes.
+
+- There are two types of distributions we have worked with in class:
+    - Normal Distribution: This is when a data set follows a bell-shaped curve where the data close to the mean occur more frequently than data far from the mean. 
+    - Binomial Distribution: This is a discrete type of data set in which there can only be two possible outcomes. The data is acquired through reapeted trials, where one of the two outcomes is recorded.
+
+## dnorm()
+
+- Probability density function for a normal distribution
+
 ```{r}
 dnorm(x=2, mean=5, sd=1)
-
-pnorm(q=2,mean=5,sd=1)
-
-qnorm(p=0.85,mean=70,sd=3)
-
-dbinom(x=46:54, size=100, prob=0.5)
-
-pbinom(q=46:54, size=100, prob=0.5)
-
-qbinom(p=46:54, size=100, prob=0.5)
-
 ```
 
+## pnorm()
 
+- Cumulative distribution function for a  normal distribution.
 
+```{r}
+pnorm(q=2,mean=7,sd=1)
+```
 
+## qnorm()
+
+- Quantile function for a normal distribution.
+
+```{r}
+qnorm(p=0.85,mean=70,sd=3)
+```
+
+## dbinom()
+
+- Probability density function for a binomial distribution.
+
+```{r}
+dbinom(x=5, size=100, prob=0.5)
+```
+
+## pbinom()
+
+- Cumulative distribution function for a binomial distribution.
+
+```{r}
+pbinom(q=5, size=100, prob=0.5)
+```
+
+## qbinom()
+
+- Quantile function for a binomial distribution.
+
+```{r}
+qbinom(p=0.3, size=100, prob=0.5)
+```
 
